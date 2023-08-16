@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: proglv-backend
-          image: __IMAGE_NAME__:__IMAGE_TAG__
+          image: __IMAGE_AUTHOR__/__IMAGE_NAME__:__IMAGE_TAG__
           env:
             - name: SQLX_CONN_STRING
               valueFrom:
