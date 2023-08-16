@@ -18,7 +18,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: proglv_backend
+                name: proglv-backend
                 port:
                   number: 80
   ingressClassName: nginx 

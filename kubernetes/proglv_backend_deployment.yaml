@@ -16,7 +16,7 @@ spec:
         app: proglv-backend
     spec:
       containers:
-        - name: backend
+        - name: proglv-backend
           image: krisjanisp/proglv-backend:0.1
           env:
             - name: SQLX_CONN_STRING
