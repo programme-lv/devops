@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: docs
-          image: krisjanisp/proglv-docs:sha-97ea347
+          image: __IMAGE_AUTHOR__/__IMAGE_NAME__:__IMAGE_TAG__
           ports:
             - name: http
               containerPort: 80
