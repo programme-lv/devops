@@ -4,7 +4,7 @@ RABBITMQ_NAME="rmq-cluster"
 NAMESPACE="default"
 
 # Get the service name
-SERVICE_NAME="${RABBITMQ_NAME}-rabbitmq-client"
+SERVICE_NAME="${RABBITMQ_NAME}"
 
 # Get the default port for AMQP
 PORT=5672
