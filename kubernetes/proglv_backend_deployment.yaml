@@ -24,6 +24,11 @@ spec:
                 secretKeyRef:
                   name: db-credentials
                   key: DB_CONNECTION_STRING
+            - name: AMQP_CONN_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: rmq-connection
+                  key: RMQ_CONN_STRING
           ports:
             - name: http
               containerPort: 3001

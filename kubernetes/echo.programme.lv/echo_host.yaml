@@ -1,24 +1,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-docs
-  namespace: backend
+  name: echo
+  namespace: proglv
   annotations:
     cert-manager.io/issuer: letsencrypt-nginx
 spec:
   tls:
     - hosts:
-      - docs.programme.lv
-      secretName: letsencrypt-nginx-docs
+      - echo.programme.lv
+      secretName: letsencrypt-nginx-echo
   rules:
-    - host: docs.programme.lv
+    - host: echo.programme.lv
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: docs
+                name: echo
                 port:
                   number: 80
   ingressClassName: nginx 

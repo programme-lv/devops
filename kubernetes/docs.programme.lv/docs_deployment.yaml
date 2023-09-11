@@ -2,14 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: docs
-  namespace: backend
+  namespace: proglv
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: docs
   strategy:
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: docs
-          image: __IMAGE_AUTHOR__/__IMAGE_NAME__:__IMAGE_TAG__
+          image: krisjanisp/proglv-docs:latest
           ports:
             - name: http
               containerPort: 80
