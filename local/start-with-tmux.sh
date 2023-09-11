@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # get this scripts directory
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 pushd $DIR
 
@@ -46,4 +46,3 @@ tmux send-keys -t my_session:r-proxy "sudo caddy run" ENTER
 tmux attach -t my_session
 
 popd
-
