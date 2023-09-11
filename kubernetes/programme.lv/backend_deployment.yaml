@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: proglv-backend
-  namespace: backend
+  name: backend
+  namespace: proglv
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: proglv-backend
+      app: backend
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        app: proglv-backend
+        app: backend
     spec:
       containers:
-        - name: proglv-backend
+        - name: backend
           image: __IMAGE_AUTHOR__/__IMAGE_NAME__:__IMAGE_TAG__
           env:
             - name: SQLX_CONN_STRING
