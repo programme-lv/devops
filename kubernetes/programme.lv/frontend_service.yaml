@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: proglv-frontend
-  namespace: backend
+  name: frontend
+  namespace: proglv
 spec:
   ports:
     - name: http
       port: 80
       targetPort: 3000
   selector:
-    app: proglv-frontend
+    app: frontend

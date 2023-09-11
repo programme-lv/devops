@@ -17,13 +17,13 @@ spec:
     spec:
       containers:
         - name: backend
-          image: __IMAGE_AUTHOR__/__IMAGE_NAME__:__IMAGE_TAG__
+          image: krisjanisp/proglv-backend:latest
           env:
             - name: SQLX_CONN_STRING
               valueFrom:
                 secretKeyRef:
                   name: db-credentials
-                  key: DB_CONNECTION_STRING
+                  key: DB_CONN_STRING
             - name: AMQP_CONN_STRING
               valueFrom:
                 secretKeyRef:
