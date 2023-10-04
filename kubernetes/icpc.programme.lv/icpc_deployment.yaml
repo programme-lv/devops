@@ -18,6 +18,7 @@ spec:
       containers:
         - name: icpc
           image: krisjanisp/icpc-docs:latest
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 80
