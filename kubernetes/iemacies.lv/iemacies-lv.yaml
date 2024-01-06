@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iemacies
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iemacies
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: iemacies
+    spec:
+      containers:
+      - name: iemacies
+        image: krisjanisp/iemacies.lv:0.0.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 8000  # Changed to 8000
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: iemacies
+  annotations:
+    cert-manager.io/issuer: letsencrypt-nginx
+spec:
+  tls:
+  - hosts:
+    - iemacies.lv
+    secretName: letsencrypt-nginx-iemacies
+  rules:
+  - host: iemacies.lv
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: iemacies
+            port:
+              number: 80  # Service port remains 80 for external traffic
+  ingressClassName: nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iemacies
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8000  # Changed to 8000
+  selector:
+    app: iemacies
+  type: ClusterIP
