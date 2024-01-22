@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: iemacies
+  name: iemacies-prezentacija
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: iemacies
+      app: iemacies-prezentacija
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: iemacies
+        app: iemacies-prezentacija
     spec:
       containers:
-      - name: iemacies
-        image: krisjanisp/iemacies.lv:0.0.4
+      - name: iemacies-prezentacija
+        image: krisjanisp/iemacieslv-prezentacija:0.0.1
         imagePullPolicy: IfNotPresent
         ports:
         - name: http
@@ -25,23 +25,23 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: iemacies
+  name: iemacies-prezentacija
   annotations:
     cert-manager.io/issuer: letsencrypt-nginx
 spec:
   tls:
   - hosts:
-    - iemacies.lv
-    secretName: letsencrypt-nginx-iemacies
+    - prezentacija.iemacies.lv
+    secretName: letsencrypt-nginx-iemacies-prezentacija
   rules:
-  - host: iemacies.lv
+  - host: prezentacija.iemacies.lv
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: iemacies
+            name: iemacies-prezentacija
             port:
               number: 80  # Service port remains 80 for external traffic
   ingressClassName: nginx
@@ -49,12 +49,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: iemacies
+  name: iemacies-prezentacija
 spec:
   ports:
   - name: http
     port: 80
     targetPort: 8000  # Changed to 8000
   selector:
-    app: iemacies
+    app: iemacies-prezentacija
   type: ClusterIP
