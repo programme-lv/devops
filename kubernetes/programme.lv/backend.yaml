@@ -37,3 +37,20 @@ spec:
           ports:
             - name: http
               containerPort: 3001
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: proglv
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3001
+  selector:
+    app: backend

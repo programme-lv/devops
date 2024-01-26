@@ -24,3 +24,20 @@ spec:
           ports:
             - name: http
               containerPort: 3000
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: proglv
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+  selector:
+    app: frontend
