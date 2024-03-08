@@ -14,7 +14,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   pgadmin:
-    image: dpage/pgadmin4:latest
+    image: dpage/pgadmin4:8.4
     environment:
       PGADMIN_DEFAULT_EMAIL: 'admin@programme.lv'
       PGADMIN_DEFAULT_PASSWORD: 'proglv'
