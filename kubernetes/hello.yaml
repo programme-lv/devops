@@ -26,12 +26,12 @@ spec:
     - name: rmq
       protocol: TLS
       port: 5672
-      hostname: 'rmq.programme.lv'
+      hostname: 'programme.lv'
       tls:
         mode: Terminate
         certificateRefs:
         - kind: Secret
-          name: rmq-tls
+          name: letsencrypt-nginx-proglv
     - name: rmq-raw
       protocol: TCP
       port: 5671
