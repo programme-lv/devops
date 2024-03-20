@@ -8,10 +8,10 @@ spec:
   replicas: 1
   resources:
     requests:
-      cpu: 500m
-      memory: 1Gi
+      cpu: 200m
+      memory: 300Mi
     limits:
-      cpu: 800m
-      memory: 1Gi
+      cpu: 500m
+      memory: 400Mi
   service:
-    type: NodePort
+    type: ClusterIP
