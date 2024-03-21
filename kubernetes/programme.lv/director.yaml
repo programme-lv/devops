@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: director
+  namespace: proglv
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: director
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: director
+    spec:
+      containers:
+        - name: director
+          image: krisjanisp/proglv-director:0.0.1
+          env:
+            - name: RMQ_CONN_STR
+              valueFrom:
+                secretKeyRef:
+                  name: rmq-connection
+                  key: RMQ_CONN_STRING
+            - name: GRPC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: grpc-api-key
+                  key: GRPC_API_KEY
+          ports:
+            - name: tcp
+              containerPort: 50051
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: director
+  namespace: proglv
+spec:
+  ports:
+    - name: tcp
+      port: 50051
+      targetPort: 50051
+  selector:
+    app: director
