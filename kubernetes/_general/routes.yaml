@@ -35,6 +35,24 @@ spec:
     - name: rmq-raw
       protocol: TCP
       port: 5671
+    - name: director-grpc
+      protocol: TLS
+      port: 555
+      hostname: 'programme.lv'
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+        - kind: Secret
+          name: letsencrypt-nginx-proglv
+    - name: director-grpc-raw
+      protocol: TCP
+      port: 554
+      allowedRoutes:
+        namespaces:
+          from: All
 
 ---
 apiVersion: gateway.networking.k8s.io/v1beta1
@@ -135,3 +153,37 @@ spec:
     - backendRefs:
       - name: rmq-cluster
         port: 5672
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: programme-director-grpc-route
+  namespace: proglv
+  labels:
+    gateway: programme-gateway
+spec:
+  parentRefs:
+  - name: eg
+    namespace: default
+    sectionName: director-grpc
+  rules:
+    - backendRefs:
+      - name: director
+        port: 50051
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: programme-director-grpc-route-raw
+  namespace: proglv
+  labels:
+    gateway: programme-gateway
+spec:
+  parentRefs:
+  - name: eg
+    namespace: default
+    sectionName: director-grpc-raw
+  rules:
+    - backendRefs:
+      - name: director
+        port: 50051
