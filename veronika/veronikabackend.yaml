@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: veronikabackend
+  namespace: proglv
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: veronikabackend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: veronikabackend
+    spec:
+      containers:
+        - name: veronikabackend
+          image: krisjanisp/proglv-veronikabackend:0.0.1
+          env:
+            - name: SQLX_CONN_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: db-veronika-credentials
+                  key: DB_CONN_STRING
+            - name: AMQP_CONN_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: rmq-connection
+                  key: RMQ_CONN_STRING
+            - name: REDIS_CONN_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: db-veronika-credentials
+                  key: REDIS_CONN_STRING
+            - name: S3_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: s3-veronika-credentials
+                  key: S3_ENDPOINT
+            - name: S3_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: s3-veronika-credentials
+                  key: S3_BUCKET
+            - name: DO_SPACES_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: s3-veronika-credentials
+                  key: DO_SPACES_KEY
+            - name: DO_SPACES_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: s3-veronika-credentials
+                  key: DO_SPACES_SECRET
+            - name: DIRECTOR_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: director-veronika-credentials
+                  key: DIRECTOR_ENDPOINT
+            - name: DIRECTOR_AUTH_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: director-veronika-credentials
+                  key: DIRECTOR_AUTH_KEY
+          ports:
+            - name: http
+              containerPort: 3001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: veronikabackend
+  namespace: proglv
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3001
+  selector:
+    app: veronikabackend

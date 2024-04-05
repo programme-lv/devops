@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: veronikafrontend
+  namespace: proglv
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: veronikafrontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: veronikafrontend
+    spec:
+      containers:
+        - name: proglv-veronikafrontend
+          image: krisjanisp/proglv-veronikafrontend:0.0.2
+          env:
+            - name: BACKEND_URI
+              value: "http://veronikabackend/query"
+          ports:
+            - name: http
+              containerPort: 3000
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: veronikafrontend
+  namespace: proglv
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+  selector:
+    app: veronikafrontend
